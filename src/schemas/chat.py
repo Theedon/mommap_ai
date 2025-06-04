@@ -15,3 +15,13 @@ class ChatMessage(BaseModel):
     identifier: Role
     timestamp: str
     created_at: str
+
+
+class ChatMessageResponse(BaseModel):
+    input: str
+    response: str
+    diagnosis: str
+    is_emergency: bool = False
+
+    class Config:
+        orm_mode = True
