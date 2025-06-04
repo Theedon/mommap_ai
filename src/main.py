@@ -1,13 +1,15 @@
 import os
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 
 from src.api import api
 from src.core.config import settings
 from src.core.logger import log as logger
 
-app = FastAPI(title="Mommap AI Microservice")
+app = FastAPI(
+    title="Mommap", description="Health AI Application", version=settings.API_VERSION
+)
 
 
 @app.get("/")
