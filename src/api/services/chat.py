@@ -16,4 +16,5 @@ def process_ai_chat_service(user_id: str, user_message: str, chat_history: List[
         response=response.get("response") or "",
         diagnosis=response.get("diagnosis") or "",
         is_emergency=response.get("is_emergency") or False,
+        treatment=response.get("treatment") or "",
     )

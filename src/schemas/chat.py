@@ -22,6 +22,7 @@ class ChatMessageResponse(BaseModel):
     response: str
     diagnosis: str
     is_emergency: bool = False
+    treatment: str
 
     class Config:
         orm_mode = True
