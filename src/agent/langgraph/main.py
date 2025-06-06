@@ -59,6 +59,7 @@ class HealthAIAgent:
     def check_emergency(self, state: HealthState):
         logger.info("--------🚨 Checking Emergency Node--------")
         prompt = CHECK_EMERGENCY_PROMPT.format(
+            input=state["input"],
             symptoms=", ".join(state["symptoms"]),
             chat_history=(
                 state["chat_history"]
@@ -82,6 +83,7 @@ class HealthAIAgent:
     def reason_diagnosis(self, state: HealthState):
         logger.info("--------🩺 Reasoning Diagnosis Node--------")
         prompt = REASON_DIAGNOSIS_PROMPT.format(
+            input=state["input"],
             symptoms=", ".join(state["symptoms"]),
             chat_history=(
                 state["chat_history"]
@@ -115,6 +117,7 @@ class HealthAIAgent:
     def format_response(self, state: HealthState):
         logger.info("--------📋 Formatting Response Node--------")
         prompt = COMPILE_RESULT_PROMPT.format(
+            input=state["input"],
             diagnosis=state["diagnosis"],
             symptoms=", ".join(state["symptoms"]),
             treatment=state["treatment"],

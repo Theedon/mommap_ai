@@ -51,6 +51,7 @@ Now, based on:
 - Diagnosis: {{diagnosis}}
 - Symptoms shared: {{symptoms}}
 - Suggested treatment: {{treatment}}
+- Most recent user message: {{input}}
 
 Chat history:
 {{chat_history}}
