@@ -30,7 +30,7 @@ class LLMProviderManager:
     ) -> BaseChatModel:
         return ChatGroq(
             model=settings.MODEL_DEPLOYMENT_NAME,
-            temperature=0.5,
+            temperature=0.9,
             max_retries=2,
             rate_limiter=self.rate_limiter,
             callbacks=callbacks,
