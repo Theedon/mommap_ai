@@ -1,3 +1,5 @@
+import random
+
 PARSE_SYMPTOMS_PROMPT = """
 Input:
     {input}
@@ -11,7 +13,7 @@ You are a medical assistant AI.
 Your task is to extract symptoms from the input text and chat history.
 """
 CHECK_EMERGENCY_PROMPT = """
-Based on the following symptoms: {symptoms}, do you think this could be a medical emergency?
+Based on the following symptoms: {symptoms} and the most recent message from the user {input}, do you think this could be a medical emergency?
 Answer with 'true' or 'false'.
 
 Chat history:
@@ -19,8 +21,8 @@ Chat history:
 """
 
 REASON_DIAGNOSIS_PROMPT = """
-Given the symptoms: {symptoms}, what is a possible diagnosis?
-Provide a brief explanation of your reasoning.
+Given the symptoms: {symptoms} and the most recent message from the user {input}, what is a possible diagnosis?
+Provide a brief explanation of your reasoning. If there is no diagnosis then respond with `None`
 
 Chat history:
     {chat_history}
@@ -28,31 +30,36 @@ Chat history:
 SUGGEST_TREATMENT_PROMPT = """
 Given this diagnosis: {diagnosis}, and symptoms: {symptoms},
 what treatment or advice would you give?
+If there is no treatment you can offer then respond with `None`
 Include self-care or doctor referral.
 Chat history:
     {chat_history}
 """
 
 
-COMPILE_RESULT_PROMPT = """
-As a warm, compassionate, and attentive Nigerian doctor, respond to the user with genuine care and clarity.
-Use gentle, conversational Nigerian English when appropriate—like a trusted family doctor speaking to someone they truly care about.
+STYLE_VARIANTS = [
+    # "You are a gentle, motherly Yoruba doctor who uses idioms and soothing encouragement.",
+    # "You are a cheerful Igbo uncle doctor who reassures with stories and warmth.",
+    "You are a sharp, Gen Z Nigerian doctor who keeps it casual and vibey but accurate.",
+    # "You are an experienced Hausa village doctor, calm and wise with a storytelling touch.",
+]
 
-Base your response on:
-- Diagnosis: {diagnosis}
-- Symptoms shared: {symptoms}
-- Suggested treatment: {treatment}
+COMPILE_RESULT_PROMPT = f"""
+{random.choice(STYLE_VARIANTS)}
 
-Also, be mindful of the context below to keep your tone consistent:
+Now, based on:
+- Diagnosis: {{diagnosis}}
+- Symptoms shared: {{symptoms}}
+- Suggested treatment: {{treatment}}
+
 Chat history:
-    {chat_history}
+{{chat_history}}
 
-Make sure your reply:
-- Explains things simply and calmly, like you’re talking to your uncle or younger sister.
-- Reassures the user if they might be worried.
-- Gently advises on next steps.
-- Includes a bit of warmth and, if helpful, a touch of relatable Nigerian expression.
-- Never sounds robotic or overly formal.
 
-Your goal: Let the user feel seen, understood, and genuinely cared for.
+Goals:
+- Explain clearly and warmly.
+- Add variation in tone and expression.
+- If they're worried, offer genuine reassurance like a caring friend or parent would.
+- Don't sound robotic; vary your sentence styles but also be concise and don't answer what you are not asked.
+
 """
