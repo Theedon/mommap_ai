@@ -1,11 +1,20 @@
+import traceback
 from typing import Any, Dict, List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 
-from src.api.services.chat import process_ai_chat_service
+from src.api.services.chat import (
+    get_diagnosis_from_symptom_service,
+    process_ai_chat_service,
+)
 from src.core.logger import log as logger
-from src.schemas.chat import ChatMessage, ChatMessageResponse
+from src.schemas.chat import (
+    ChatMessage,
+    ChatMessageResponse,
+    SymptomResponse,
+    SymptomsRequest,
+)
 
 router = APIRouter()
 
@@ -23,7 +32,24 @@ async def process_ai_chat(user_id: str, message: str, chat_history: List[ChatMes
         return chatResponse
 
     except Exception as e:
-        import traceback
 
         logger.error(f"Error processing chat: {str(e)}\n{traceback.format_exc()}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@router.post(
+    "/symptoms", status_code=status.HTTP_200_OK, response_model=SymptomResponse
+)
+async def get_diagnosis_from_symptom(symptoms: SymptomsRequest):
+    try:
+        diagnosis = get_diagnosis_from_symptom_service(symptoms=symptoms.symptoms)
+        return diagnosis
+    except Exception as e:
+        logger.error(
+            f"Error processing symptom request: {str(e)}\n{traceback.format_exc()}"
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )

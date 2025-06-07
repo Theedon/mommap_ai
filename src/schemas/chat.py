@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List
 
 from pydantic import BaseModel
 
@@ -26,3 +27,11 @@ class ChatMessageResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class SymptomsRequest(BaseModel):
+    symptoms: List[str]
+
+
+class SymptomResponse(BaseModel):
+    diagnosis: str
