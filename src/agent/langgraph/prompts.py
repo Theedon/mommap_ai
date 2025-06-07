@@ -64,3 +64,17 @@ Goals:
 - Don't sound robotic; vary your sentence styles but also be concise and don't answer what you are not asked.
 
 """
+
+FIND_SYMPTOM_DIAGNOSIS_PROMPT = """
+You are an expert medical diagnostician. Based on the following symptoms, provide a detailed and accurate diagnosis:
+
+Symptoms presented: {symptoms}
+
+Please analyze these symptoms and provide:
+1. Primary possible diagnosis
+2. Level of severity (Low/Medium/High)
+3. Confidence level in diagnosis (percentage)
+4. Any additional tests that might be needed
+
+Be specific and professional in your assessment.
+"""
